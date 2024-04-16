@@ -36,6 +36,25 @@ zadanie_1a <- function(wektor)
   return(list(srednia = srednia, mediana = mediana, moda = moda, kwartyle = kwartyle, wariancja_obciazona = wariancja_obciazona, odchylenie_standardowe_obciazone = odchylenie_standardowe_obciazone, wariancja_nieobciazona = wariancja_nieobciazona, odchylenie_standardowe_nieobciazone = odchylenie_standardowe_nieobciazone, odchylenie_przecietne_d1 = odchylenie_przecietne_d1, odchylenie_przecietne_od_mediany = odchylenie_przecietne_od_mediany, odchylenie_cwiartkowe = odchylenie_cwiartkowe, wspolczynnik_zmiennosci_v = wspolczynnik_zmiennosci_v, pozycyjny_wspolczynnik_zmiennosci_vq = pozycyjny_wspolczynnik_zmiennosci_vq, skosnosc = skosnosc, kurtoza = kurtoza, eksces = eksces))
 }
 
+test_chikwadrat <- function(dane, alfa, sigma0) {
+    n <- length(dane)
+    S2 <- var(dane)
+    X2 <- (n * S2) / (sigma0^2)
+    krytyczny_lewo <- qchisq(alfa/2, df = n-1)
+    krytyczny_prawo <- qchisq(1 - alfa/2, df = n-1)
+    
+    cat("Wartość statystyki Chi-kwadrat:", X2, "\n")
+    cat("Przedział krytyczny (lewostronny): (-∞, ", krytyczny_lewo, ")\n")
+    cat("Przedział krytyczny (prawostronny): (", krytyczny_prawo, ", ∞)\n")
+    
+    if (X2 > krytyczny_lewo & X2 < krytyczny_prawo) {
+        cat("Nie ma podstaw do odrzucenia hipotezy zerowej. Odchylenie jest równe", sigma0, "\n")
+    } else {
+        cat("Odrzucamy hipotezę zerową na rzecz hipotezy alternatywnej. Odchylenie jest różne od", sigma0, "\n")
+    }
+}
+
+
 # Funkcja `zad5` wykonuje test t dla średniej
 # wartości w zadanym wektorze `wydatki`.
 # Test sprawdza, czy średnia w pierwszym punkcie jest większa niż w drugim z poziomem istotności 0.05.
@@ -64,9 +83,15 @@ print("Zadanie 1 wyniki: ")
 wyniki <- zadanie_1a(wydatkiC)
 print(wyniki)
 
+print("Zadanie 4 wyniki:  ")
+alfa <- 0.05
+sigma0 <- 41
 
-wynik_zad_5 <- zad5(wydatki_1, wydatki_2)
+print(test_chikwadrat(wydatki_2, alfa, sigma0))
+
+
 print("Zadanie 5 wyniki: ")
+wynik_zad_5 <- zad5(wydatki_1, wydatki_2)
 print(wynik_zad_5)
 
 p_value <- wynik_zad_5$p.value
