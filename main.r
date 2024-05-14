@@ -44,9 +44,9 @@ getmode <- function(v) {
 }
 
 
-szereg_rozdzielczy <- function(dane)
+zadanie_1b <- function(dane)
 {
-  ilosc_klas = sqrt(length(dane))
+  ilosc_klas = 8  
   dlugosc_klasy = (max(dane) - min(dane))/ilosc_klas
   klasy = hist(dane, breaks = ilosc_klas,main = "Histogram szeregu rozdzielczego", xlab = "Wartości", ylab = "Częstość")
   wartosci = rep(klasy$mids, times = klasy$counts)
@@ -142,8 +142,8 @@ zadanie5 <- function(wydatki_1, wydatki_2){
 }
 
 print("Zadanie 1 wyniki: ")
-a = szereg_rozdzielczy(wydatki_1)
-b = szereg_rozdzielczy(wydatki_2)
+a = zadanie_1b(wydatki_1)
+b = zadanie_1b(wydatki_2)
 c = zadanie_1a(wydatki_1)
 d = zadanie_1a(wydatki_2)
 
