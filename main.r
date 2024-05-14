@@ -11,7 +11,7 @@ max_freq <- max(tab)
 names(tab)[tab == max_freq]
 }
 
-zadanie_1a <- function(wektor)
+zadanie1 <- function(wektor)
 {
   srednia <- mean(wektor)
   mediana <- median(wektor)
@@ -83,7 +83,7 @@ zadanie4 <- function(dane, alfa, sigma0) {
 # wartości w zadanym wektorze `wydatki`.
 # Test sprawdza, czy średnia w pierwszym punkcie jest większa niż w drugim z poziomem istotności 0.05.
 
-zad5 <- function(wydatki_1, wydatki_2){
+zadanie5 <- function(wydatki_1, wydatki_2){
   # Sprawdzenie, czy argument `wydatki` jest wektorem
   if (!is.numeric(wydatki_1) || !is.numeric(wydatki_2)) {
     stop("Argument `wydatki` musi być wektorem liczbowym.")
@@ -104,7 +104,7 @@ zad5 <- function(wydatki_1, wydatki_2){
 }
 
 print("Zadanie 1 wyniki: ")
-wyniki <- zadanie_1a(wydatkiC)
+wyniki <- zadanie1(wydatkiC)
 print(wyniki)
 
 print("Zadanie 2 wyniki: ")
@@ -124,7 +124,7 @@ print(zadanie4(wydatki_2, alfa, sigma0))
 
 
 print("Zadanie 5 wyniki: ")
-wynik_zad_5 <- zad5(wydatki_1, wydatki_2)
+wynik_zad_5 <- zadanie5(wydatki_1, wydatki_2)
 print(wynik_zad_5)
 
 p_value <- wynik_zad_5$p.value
