@@ -1,3 +1,4 @@
+require(nortest)
 wydatki_1 <- c(99, 150, 105, 137, 86, 94, 138, 89, 59, 167, 116, 115, 182, 78, 144, 121, 67, 121, 109, 145, 79, 173, 126, 149, 98, 96, 82, 75, 118, 106, 72, 45, 155, 97, 157, 63, 113, 170, 105, 71, 144, 68, 175, 116, 115, 137, 87)
 wydatki_2 <- c(123, 108, 100, 127, 188, 71, 136, 76, 41, 176, 147, 57, 117, 179, 53, 86, 100, 117, 123, 138, 161, 116, 117, 89, 231, 137, 93, 151, 153, 78, 86, 82, 155, 89, 93, 31, 106, 141, 15, 225, 149, 114, 167, 88, 130, 167, 155, 82, 126, 129, 131)
 
@@ -36,24 +37,47 @@ zadanie_1a <- function(wektor)
   return(list(srednia = srednia, mediana = mediana, moda = moda, kwartyle = kwartyle, wariancja_obciazona = wariancja_obciazona, odchylenie_standardowe_obciazone = odchylenie_standardowe_obciazone, wariancja_nieobciazona = wariancja_nieobciazona, odchylenie_standardowe_nieobciazone = odchylenie_standardowe_nieobciazone, odchylenie_przecietne_d1 = odchylenie_przecietne_d1, odchylenie_przecietne_od_mediany = odchylenie_przecietne_od_mediany, odchylenie_cwiartkowe = odchylenie_cwiartkowe, wspolczynnik_zmiennosci_v = wspolczynnik_zmiennosci_v, pozycyjny_wspolczynnik_zmiennosci_vq = pozycyjny_wspolczynnik_zmiennosci_vq, skosnosc = skosnosc, kurtoza = kurtoza, eksces = eksces))
 }
 
-test_chikwadrat <- function(dane, alfa, sigma0) {
-    n <- length(dane)
-    S2 <- var(dane)
-    X2 <- (n * S2) / (sigma0^2)
-    krytyczny_lewo <- qchisq(alfa/2, df = n-1)
-    krytyczny_prawo <- qchisq(1 - alfa/2, df = n-1)
-    
-    cat("Wartość statystyki Chi-kwadrat:", X2, "\n")
-    cat("Przedział krytyczny (lewostronny): (-∞, ", krytyczny_lewo, ")\n")
-    cat("Przedział krytyczny (prawostronny): (", krytyczny_prawo, ", ∞)\n")
-    
-    if (X2 > krytyczny_lewo & X2 < krytyczny_prawo) {
-        cat("Nie ma podstaw do odrzucenia hipotezy zerowej. Odchylenie jest równe", sigma0, "\n")
-    } else {
-        cat("Odrzucamy hipotezę zerową na rzecz hipotezy alternatywnej. Odchylenie jest różne od", sigma0, "\n")
-    }
+zadanie2 <- function(){
+  lillie.test(wydatki_1)
+
+  lillie.test(wydatki_2)
 }
 
+zadanie3 <- function(dane, mu, alfa) {
+  n <- length(dane)
+  s <- sd(dane)
+  średnia <- mean(dane)
+  t_wartość <- (średnia - mu) / (s / sqrt(n))
+  stopnie_swobody <- n - 1
+  krytyczna <- qt(1 - alfa / 2, df = stopnie_swobody)
+  
+  cat("Wartość t-testu:", t_wartość, "\n")
+  cat("Wartość krytyczna:", krytyczna, "\n")
+  
+  if (abs(t_wartość) > krytyczna) {
+    cat("Odrzucamy hipotezę zerową - istnieje istotna różnica między średnią próbkową a wartością", mu, "\n")
+  } else {
+    cat("Nie ma podstaw do odrzucenia hipotezy zerowej - brak istotnej różnicy między średnią próbkową a wartością", mu, "\n")
+  }
+}
+
+zadanie4 <- function(dane, alfa, sigma0) {
+  n <- length(dane)
+  S2 <- var(dane)
+  X2 <- (n * S2) / (sigma0^2)
+  krytyczny_lewo <- qchisq(alfa/2, df = n-1)
+  krytyczny_prawo <- qchisq(1 - alfa/2, df = n-1)
+  
+  cat("Wartość statystyki Chi-kwadrat:", X2, "\n")
+  cat("Przedział krytyczny (lewostronny): (-∞, ", krytyczny_lewo, ")\n")
+  cat("Przedział krytyczny (prawostronny): (", krytyczny_prawo, ", ∞)\n")
+  
+  if (X2 > krytyczny_lewo & X2 < krytyczny_prawo) {
+      cat("Nie ma podstaw do odrzucenia hipotezy zerowej. Odchylenie jest równe", sigma0, "\n")
+  } else {
+      cat("Odrzucamy hipotezę zerową na rzecz hipotezy alternatywnej. Odchylenie jest różne od", sigma0, "\n")
+  }
+}
 
 # Funkcja `zad5` wykonuje test t dla średniej
 # wartości w zadanym wektorze `wydatki`.
@@ -83,11 +107,20 @@ print("Zadanie 1 wyniki: ")
 wyniki <- zadanie_1a(wydatkiC)
 print(wyniki)
 
+print("Zadanie 2 wyniki: ")
+print(zadanie2())
+
+print("Zadanie 3 wyniki: ")
+alfa <- 0.05
+mu <- 119
+
+print(zadanie3(wydatki_1, mu, alfa))
+
 print("Zadanie 4 wyniki:  ")
 alfa <- 0.05
 sigma0 <- 41
 
-print(test_chikwadrat(wydatki_2, alfa, sigma0))
+print(zadanie4(wydatki_2, alfa, sigma0))
 
 
 print("Zadanie 5 wyniki: ")
